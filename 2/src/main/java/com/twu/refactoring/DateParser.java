@@ -28,7 +28,7 @@ public class DateParser {
 
     public Date parse() {
         int date, hour, minute;
-        int year = yearIsValid();
+        int year = getYear();
         int month = getMonth();
 
 
@@ -79,7 +79,7 @@ public class DateParser {
         return calendar.getTime();
     }
     
-    private int yearIsValid(){
+    private int getYear(){
         int year;
         try {
             String yearString = dateAndTimeString.substring(0, 4);

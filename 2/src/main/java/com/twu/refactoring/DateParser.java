@@ -46,8 +46,7 @@ public class DateParser {
             hour = 0;
         } else {
             try {
-                String hourString = dateAndTimeString.substring(11, 13);
-                hour = Integer.parseInt(hourString);
+                hour = getTimeComponentFromStringToInt(11,13);
             } catch (StringIndexOutOfBoundsException e) {
                 throw new IllegalArgumentException("Hour string is less than 2 characters");
             } catch (NumberFormatException e) {
@@ -62,8 +61,7 @@ public class DateParser {
     private int getDate() {
         int date;
         try {
-            String dateString = dateAndTimeString.substring(8, 10);
-            date = Integer.parseInt(dateString);
+            date = getTimeComponentFromStringToInt(8,10);
         } catch (StringIndexOutOfBoundsException e) {
             throw new IllegalArgumentException("Date string is less than 2 characters");
         } catch (NumberFormatException e) {
@@ -77,8 +75,7 @@ public class DateParser {
     private int getYear() {
         int year;
         try {
-            String yearString = dateAndTimeString.substring(0, 4);
-            year = Integer.parseInt(yearString);
+            year = getTimeComponentFromStringToInt(0,4);
         } catch (StringIndexOutOfBoundsException e) {
             throw new IllegalArgumentException("Year string is less than 4 characters");
         } catch (NumberFormatException e) {
@@ -92,8 +89,7 @@ public class DateParser {
     private int getMonth() {
         int month;
         try {
-            String monthString = dateAndTimeString.substring(5, 7);
-            month = Integer.parseInt(monthString);
+            month = getTimeComponentFromStringToInt(5,7);
         } catch (StringIndexOutOfBoundsException e) {
             throw new IllegalArgumentException("Month string is less than 2 characters");
         } catch (NumberFormatException e) {
@@ -110,8 +106,7 @@ public class DateParser {
             minute = 0;
         } else {
             try {
-                String minuteString = dateAndTimeString.substring(14, 16);
-                minute = Integer.parseInt(minuteString);
+                minute = getTimeComponentFromStringToInt(14,16);
             } catch (StringIndexOutOfBoundsException e) {
                 throw new IllegalArgumentException("Minute string is less than 2 characters");
             } catch (NumberFormatException e) {
@@ -121,5 +116,10 @@ public class DateParser {
                 throw new IllegalArgumentException("Minute cannot be less than 0 or more than 59");
         }
         return minute;
+    }
+
+    private int getTimeComponentFromStringToInt(int start,int end){
+        String dateComponentString = dateAndTimeString.substring(start, end);
+        return Integer.parseInt(dateComponentString);
     }
 }

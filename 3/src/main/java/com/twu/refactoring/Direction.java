@@ -7,19 +7,15 @@ public class Direction {
         this.direction = direction;
     }
 
+    String directions = "NESW";
+
     public Direction turnRight() {
-        switch (direction) {
-            case 'N':
-                return new Direction('E');
-            case 'S':
-                return new Direction('W');
-            case 'E':
-                return new Direction('N');
-            case 'W':
-                return new Direction('S');
-            default:
-                throw new IllegalArgumentException();
+        int index = directions.indexOf(direction);
+        if(index ==  -1){
+            throw new IllegalArgumentException();
         }
+        return new Direction(directions.charAt((index+1)%directions.length()));
+
     }
 
     public Direction turnLeft() {

@@ -27,22 +27,10 @@ public class DateParser {
     }
 
     public Date parse() {
-        int date, hour, minute;
+        int hour, minute;
         int year = getYear();
         int month = getMonth();
-
-
-
-        try {
-            String dateString = dateAndTimeString.substring(8, 10);
-            date = Integer.parseInt(dateString);
-        } catch (StringIndexOutOfBoundsException e) {
-            throw new IllegalArgumentException("Date string is less than 2 characters");
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("Date is not an integer");
-        }
-        if (date < 1 || date > 31)
-            throw new IllegalArgumentException("Date cannot be less than 1 or more than 31");
+        int date = getDate();
 
         if (dateAndTimeString.substring(11, 12).equals("Z")) {
             hour = 0;
@@ -78,7 +66,22 @@ public class DateParser {
         calendar.set(Calendar.MILLISECOND, 0);
         return calendar.getTime();
     }
-    
+
+    private int getDate() {
+        int date;
+        try {
+            String dateString = dateAndTimeString.substring(8, 10);
+            date = Integer.parseInt(dateString);
+        } catch (StringIndexOutOfBoundsException e) {
+            throw new IllegalArgumentException("Date string is less than 2 characters");
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Date is not an integer");
+        }
+        if (date < 1 || date > 31)
+            throw new IllegalArgumentException("Date cannot be less than 1 or more than 31");
+        return date;
+    }
+
     private int getYear(){
         int year;
         try {

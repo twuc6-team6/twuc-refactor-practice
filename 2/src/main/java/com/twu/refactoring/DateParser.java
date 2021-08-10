@@ -27,14 +27,23 @@ public class DateParser {
     }
 
     public Date parse() {
-        int hour, minute;
         int year = getYear();
         int month = getMonth();
         int date = getDate();
+        int hour = getHour();
+        int minute = getMinute();
 
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeZone(TimeZone.getTimeZone("UTC"));
+        calendar.set(year, month - 1, date, hour, minute, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return calendar.getTime();
+    }
+
+    private int getHour() {
+        int hour;
         if (dateAndTimeString.substring(11, 12).equals("Z")) {
             hour = 0;
-            minute = 0;
         } else {
             try {
                 String hourString = dateAndTimeString.substring(11, 13);
@@ -46,25 +55,8 @@ public class DateParser {
             }
             if (hour < 0 || hour > 23)
                 throw new IllegalArgumentException("Hour cannot be less than 0 or more than 23");
-
-            try {
-                String minuteString = dateAndTimeString.substring(14, 16);
-                minute = Integer.parseInt(minuteString);
-            } catch (StringIndexOutOfBoundsException e) {
-                throw new IllegalArgumentException("Minute string is less than 2 characters");
-            } catch (NumberFormatException e) {
-                throw new IllegalArgumentException("Minute is not an integer");
-            }
-            if (minute < 0 || minute > 59)
-                throw new IllegalArgumentException("Minute cannot be less than 0 or more than 59");
-
         }
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeZone(TimeZone.getTimeZone("UTC"));
-        calendar.set(year, month - 1, date, hour, minute, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
-        return calendar.getTime();
+        return hour;
     }
 
     private int getDate() {
@@ -82,7 +74,7 @@ public class DateParser {
         return date;
     }
 
-    private int getYear(){
+    private int getYear() {
         int year;
         try {
             String yearString = dateAndTimeString.substring(0, 4);
@@ -97,7 +89,7 @@ public class DateParser {
         return year;
     }
 
-    private int getMonth(){
+    private int getMonth() {
         int month;
         try {
             String monthString = dateAndTimeString.substring(5, 7);
@@ -110,5 +102,24 @@ public class DateParser {
         if (month < 1 || month > 12)
             throw new IllegalArgumentException("Month cannot be less than 1 or more than 12");
         return month;
+    }
+
+    private int getMinute () {
+        int minute;
+        if (dateAndTimeString.substring(11, 12).equals("Z")) {
+            minute = 0;
+        } else {
+            try {
+                String minuteString = dateAndTimeString.substring(14, 16);
+                minute = Integer.parseInt(minuteString);
+            } catch (StringIndexOutOfBoundsException e) {
+                throw new IllegalArgumentException("Minute string is less than 2 characters");
+            } catch (NumberFormatException e) {
+                throw new IllegalArgumentException("Minute is not an integer");
+            }
+            if (minute < 0 || minute > 59)
+                throw new IllegalArgumentException("Minute cannot be less than 0 or more than 59");
+        }
+        return minute;
     }
 }

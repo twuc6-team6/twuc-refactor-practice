@@ -10,20 +10,19 @@ public class Direction {
     String directions = "NESW";
 
     public Direction turnRight() {
-        int index = directions.indexOf(direction);
-        if(index ==  -1){
-            throw new IllegalArgumentException();
-        }
-        return new Direction(directions.charAt((index+1)%directions.length()));
-
+        return turn(1);
     }
 
     public Direction turnLeft() {
+        return turn(-1);
+    }
+
+    private Direction turn(int leftOrRight){
         int index = directions.indexOf(direction);
         if(index ==  -1){
             throw new IllegalArgumentException();
         }
-        return new Direction(directions.charAt(((index-1)+directions.length())%directions.length()));
+        return new Direction(directions.charAt(((index+leftOrRight)+directions.length())%directions.length()));
     }
 
     @Override

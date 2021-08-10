@@ -27,20 +27,11 @@ public class DateParser {
     }
 
     public Date parse() {
-        int month, date, hour, minute;
+        int date, hour, minute;
         int year = yearIsValid();
+        int month = getMonth();
 
 
-        try {
-            String monthString = dateAndTimeString.substring(5, 7);
-            month = Integer.parseInt(monthString);
-        } catch (StringIndexOutOfBoundsException e) {
-            throw new IllegalArgumentException("Month string is less than 2 characters");
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("Month is not an integer");
-        }
-        if (month < 1 || month > 12)
-            throw new IllegalArgumentException("Month cannot be less than 1 or more than 12");
 
         try {
             String dateString = dateAndTimeString.substring(8, 10);
@@ -101,5 +92,20 @@ public class DateParser {
         if (year < 2000 || year > 2012)
             throw new IllegalArgumentException("Year cannot be less than 2000 or more than 2012");
         return year;
+    }
+
+    private int getMonth(){
+        int month;
+        try {
+            String monthString = dateAndTimeString.substring(5, 7);
+            month = Integer.parseInt(monthString);
+        } catch (StringIndexOutOfBoundsException e) {
+            throw new IllegalArgumentException("Month string is less than 2 characters");
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Month is not an integer");
+        }
+        if (month < 1 || month > 12)
+            throw new IllegalArgumentException("Month cannot be less than 1 or more than 12");
+        return month;
     }
 }

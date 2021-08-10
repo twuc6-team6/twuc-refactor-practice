@@ -19,18 +19,11 @@ public class Direction {
     }
 
     public Direction turnLeft() {
-        switch (direction) {
-            case 'N':
-                return new Direction('W');
-            case 'S':
-                return new Direction('E');
-            case 'E':
-                return new Direction('N');
-            case 'W':
-                return new Direction('S');
-            default:
-                throw new IllegalArgumentException();
+        int index = directions.indexOf(direction);
+        if(index ==  -1){
+            throw new IllegalArgumentException();
         }
+        return new Direction(directions.charAt(((index-1)+directions.length())%directions.length()));
     }
 
     @Override

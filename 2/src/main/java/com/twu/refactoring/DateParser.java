@@ -8,6 +8,11 @@ import java.util.TimeZone;
 public class DateParser {
     private final String dateAndTimeString;
     private static final HashMap<String, TimeZone> KNOWN_TIME_ZONES = new HashMap<String, TimeZone>();
+    private int year;
+    private int month;
+    private int date;
+    private int hour;
+    private int minute;
 
     static {
         KNOWN_TIME_ZONES.put("UTC", TimeZone.getTimeZone("UTC"));
@@ -27,11 +32,11 @@ public class DateParser {
     }
 
     public Date parse() {
-        int year = getYear();
-        int month = getMonth();
-        int date = getDate();
-        int hour = getHour();
-        int minute = getMinute();
+        initYear();
+        initMonth();
+        initDay();
+        initHour();
+        initMinute();
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeZone(TimeZone.getTimeZone("UTC"));
@@ -40,8 +45,7 @@ public class DateParser {
         return calendar.getTime();
     }
 
-    private int getHour() {
-        int hour;
+    private void initHour() {
         if (dateAndTimeString.substring(11, 12).equals("Z")) {
             hour = 0;
         } else {
@@ -55,11 +59,9 @@ public class DateParser {
             if (hour < 0 || hour > 23)
                 throw new IllegalArgumentException("Hour cannot be less than 0 or more than 23");
         }
-        return hour;
     }
 
-    private int getDate() {
-        int date;
+    private void initDay() {
         try {
             date = getTimeComponentFromStringToInt(8,10);
         } catch (StringIndexOutOfBoundsException e) {
@@ -69,11 +71,9 @@ public class DateParser {
         }
         if (date < 1 || date > 31)
             throw new IllegalArgumentException("Date cannot be less than 1 or more than 31");
-        return date;
     }
 
-    private int getYear() {
-        int year;
+    private void initYear() {
         try {
             year = getTimeComponentFromStringToInt(0,4);
         } catch (StringIndexOutOfBoundsException e) {
@@ -83,11 +83,9 @@ public class DateParser {
         }
         if (year < 2000 || year > 2012)
             throw new IllegalArgumentException("Year cannot be less than 2000 or more than 2012");
-        return year;
     }
 
-    private int getMonth() {
-        int month;
+    private void initMonth() {
         try {
             month = getTimeComponentFromStringToInt(5,7);
         } catch (StringIndexOutOfBoundsException e) {
@@ -97,11 +95,9 @@ public class DateParser {
         }
         if (month < 1 || month > 12)
             throw new IllegalArgumentException("Month cannot be less than 1 or more than 12");
-        return month;
     }
 
-    private int getMinute () {
-        int minute;
+    private void initMinute() {
         if (dateAndTimeString.substring(11, 12).equals("Z")) {
             minute = 0;
         } else {
@@ -115,7 +111,6 @@ public class DateParser {
             if (minute < 0 || minute > 59)
                 throw new IllegalArgumentException("Minute cannot be less than 0 or more than 59");
         }
-        return minute;
     }
 
     private int getTimeComponentFromStringToInt(int start,int end){

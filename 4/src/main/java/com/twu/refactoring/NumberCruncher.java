@@ -1,5 +1,7 @@
 package com.twu.refactoring;
 
+import java.util.Arrays;
+
 public class NumberCruncher {
     private final int[] numbers;
 
@@ -9,10 +11,7 @@ public class NumberCruncher {
 
     public int countEven() {
         int count = 0;
-        for (int number : numbers) {
-            if (number % 2 == 0) count++;
-        }
-        return count;
+        return (int)Arrays.stream(numbers).filter(number -> number%2 == 0).count();
     }
 
     public int countOdd() {

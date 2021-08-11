@@ -18,21 +18,18 @@ public class ReceiptTest {
      */
     @Test
     public void shouldCalculateChargesForACTaxiFor30Kms() {
-        // ((20 * 10 + 17 * 20) + 50 ) * 1.1 = 649.0
         double cost = new Receipt(new Taxi(true, 30, false)).getTotalCost();
         assertThat(cost, closeTo(649D, 0.01D));
     }
 
     @Test
     public void shouldCalculateChargesForNonACTaxiFor30Kms() {
-        // ((15 * 10 + 12 * 20) + 50 ) * 1.1 = 374.0
         double cost = new Receipt(new Taxi(false, 30, false)).getTotalCost();
         assertThat(cost, closeTo(484D, 0.01D));
     }
 
     @Test
     public void shouldCalculateForACChargesFor30KmsPeakTime() {
-        // ((20 * 10 + 17 * 20) * 1.2 + 50 ) * 1.1 = 767.8
         double cost = new Receipt(new Taxi(true, 30, true)).getTotalCost();
         assertThat(cost, closeTo(767.8D, 0.01D));
 
@@ -40,7 +37,6 @@ public class ReceiptTest {
 
     @Test
     public void shouldCalculateChargesForNonACTaxiFor30KmsPeakTime() {
-        // ((15 * 10 + 12 * 20) * 1.2 + 50 ) * 1.1 = 569.8
         double cost = new Receipt(new Taxi(false, 30, true)).getTotalCost();
         assertThat(cost, closeTo(569.8D, 0.01D));
     }

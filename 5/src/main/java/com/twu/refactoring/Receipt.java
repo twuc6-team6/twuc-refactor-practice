@@ -25,13 +25,19 @@ public class Receipt {
         int totalKms = taxi.getTotalKms();
         double peakTimeMultiple = taxi.isPeakTime() ? PEAK_TIME_MULTIPLIER : OFF_PEAK_MULTIPLIER;
         if(taxi.isAirConditioned()) {
-            totalCost += Math.min(RATE_CHANGE_DISTANCE, totalKms) * PRE_RATE_CHANGE_AC_RATE * peakTimeMultiple;
-            totalCost += Math.max(0, totalKms - RATE_CHANGE_DISTANCE) * POST_RATE_CHANGE_AC_RATE * peakTimeMultiple;
+            totalCost = countCost(totalCost,peakTimeMultiple,totalKms,PRE_RATE_CHANGE_AC_RATE,POST_RATE_CHANGE_AC_RATE);
         } else {
+
             totalCost += Math.min(RATE_CHANGE_DISTANCE, totalKms) * PRE_RATE_CHANGE_NON_AC_RATE * peakTimeMultiple;
             totalCost += Math.max(0, totalKms - RATE_CHANGE_DISTANCE) * POST_RATE_CHANGE_NON_AC_RATE * peakTimeMultiple;
         }
 
         return totalCost * (1 + SALES_TAX_RATE);
+    }
+
+    private double countCost(double totalCost,double peakTimeMultiple,int totalKms,int preRate,int postRate){
+        totalCost += Math.min(RATE_CHANGE_DISTANCE, totalKms) * preRate * peakTimeMultiple;
+        totalCost += Math.max(0, totalKms - RATE_CHANGE_DISTANCE) * postRate * peakTimeMultiple;
+        return totalCost;
     }
 }

@@ -5,6 +5,12 @@ import java.util.Iterator;
 
 public class Customer {
 
+	public static final double REGULAR_EXTRE_POINTS = 1.5;
+	public static final double CHILDRENS_EXTRE_POINTS = 1.5;
+	public static final int REGULAR_POINTS = 2;
+	public static final double CHILDRENS_POINTS = 1.5;
+	public static final int REGULAR_CRITICAL_DAY = 2;
+	public static final int CHILDRENS_CRITICAL_DAY = 3;
 	private String name;
 	private ArrayList<Rental> rentalList = new ArrayList<Rental>();
 
@@ -45,18 +51,19 @@ public class Customer {
 		double thisAmount = 0;
 		switch (each.getMovie().getPriceCode()) {
 			case Movie.REGULAR:
-				thisAmount += 2;
-				if (each.getDaysRented() > 2)
-					thisAmount += (each.getDaysRented() - 2) * 1.5;
+				thisAmount += REGULAR_POINTS;
+				if (each.getDaysRented() > REGULAR_CRITICAL_DAY)
+					thisAmount += (each.getDaysRented() - REGULAR_CRITICAL_DAY) * REGULAR_EXTRE_POINTS;
 				break;
 			case Movie.NEW_RELEASE:
 				thisAmount += each.getDaysRented() * 3;
 				break;
 			case Movie.CHILDRENS:
-				thisAmount += 1.5;
-				if (each.getDaysRented() > 3)
-					thisAmount += (each.getDaysRented() - 3) * 1.5;
+				thisAmount += CHILDRENS_POINTS;
+				if (each.getDaysRented() > CHILDRENS_CRITICAL_DAY)
+					thisAmount += (each.getDaysRented() - CHILDRENS_CRITICAL_DAY) * CHILDRENS_EXTRE_POINTS;
 				break;
+
 
 		}
 		return thisAmount;

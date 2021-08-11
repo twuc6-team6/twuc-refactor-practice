@@ -11,6 +11,7 @@ public class Receipt {
     private static final int POST_RATE_CHANGE_AC_RATE = 17;
     private static final double SALES_TAX_RATE = 0.1;
 
+
     private final Taxi taxi;
 
     public Receipt(Taxi taxi) {
@@ -22,18 +23,19 @@ public class Receipt {
 
         totalCost += FIXED_CHARGE;
 
-        int totalKms = taxi.getTotalKms();
+
         double peakTimeMultiple = taxi.isPeakTime() ? PEAK_TIME_MULTIPLIER : OFF_PEAK_MULTIPLIER;
         if(taxi.isAirConditioned()) {
-            totalCost = countCost(totalCost,peakTimeMultiple,totalKms,PRE_RATE_CHANGE_AC_RATE,POST_RATE_CHANGE_AC_RATE);
+            totalCost = countCost(totalCost,peakTimeMultiple,PRE_RATE_CHANGE_AC_RATE,POST_RATE_CHANGE_AC_RATE);
         } else {
-            totalCost = countCost(totalCost, peakTimeMultiple, totalKms, PRE_RATE_CHANGE_NON_AC_RATE, POST_RATE_CHANGE_NON_AC_RATE);
+            totalCost = countCost(totalCost, peakTimeMultiple,PRE_RATE_CHANGE_NON_AC_RATE, POST_RATE_CHANGE_NON_AC_RATE);
         }
 
         return totalCost * (1 + SALES_TAX_RATE);
     }
 
-    private double countCost(double totalCost,double peakTimeMultiple,int totalKms,int preRate,int postRate){
+    private double countCost(double totalCost,double peakTimeMultiple,int preRate,int postRate){
+        int totalKms = taxi.getTotalKms();
         totalCost += Math.min(RATE_CHANGE_DISTANCE, totalKms) * preRate * peakTimeMultiple;
         totalCost += Math.max(0, totalKms - RATE_CHANGE_DISTANCE) * postRate * peakTimeMultiple;
         return totalCost;

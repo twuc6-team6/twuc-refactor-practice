@@ -22,10 +22,6 @@ public class NumberCruncher {
     }
 
     public int countNegative() {
-        int count = 0;
-        for (int number : numbers) {
-            if (number < 0) count++;
-        }
-        return count;
+        return (int)Arrays.stream(numbers).filter(number -> number < 0).count();
     }
 }

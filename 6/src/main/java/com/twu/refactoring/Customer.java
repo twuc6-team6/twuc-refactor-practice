@@ -30,14 +30,11 @@ public class Customer {
 			Rental each = rentals.next();
             thisAmount = this.determineAmountsForEachLine(each);
 			frequentRenterPoints = countFrequentRenterPoints(each,frequentRenterPoints);
-
-			// show figures for this rental
 			result += "\t" + each.getMovie().getTitle() + "\t"
 					+ String.valueOf(thisAmount) + "\n";
 			totalAmount += thisAmount;
 
 		}
-		// add footer lines
 		result += "Amount owed is " + String.valueOf(totalAmount) + "\n";
 		result += "You earned " + String.valueOf(frequentRenterPoints)
 				+ " frequent renter points";

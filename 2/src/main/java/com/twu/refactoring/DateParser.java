@@ -101,20 +101,24 @@ public class DateParser {
         if (dateAndTimeString.substring(11, 12).equals("Z")) {
             minute = 0;
         } else {
-            try {
-                minute = getTimeComponentFromStringToInt(14,16);
-            } catch (StringIndexOutOfBoundsException e) {
-                throw new IllegalArgumentException("Minute string is less than 2 characters");
-            } catch (NumberFormatException e) {
-                throw new IllegalArgumentException("Minute is not an integer");
-            }
-            if (minute < 0 || minute > 59)
-                throw new IllegalArgumentException("Minute cannot be less than 0 or more than 59");
+            exceptionHandler(11,12,"Minute",0,59);
         }
     }
 
     private int getTimeComponentFromStringToInt(int start,int end){
         String dateComponentString = dateAndTimeString.substring(start, end);
         return Integer.parseInt(dateComponentString);
+    }
+
+    private void exceptionHandler(int stat,int end,String timeComponent,int min,int max){
+        try {
+            minute = getTimeComponentFromStringToInt(14,16);
+        } catch (StringIndexOutOfBoundsException e) {
+            throw new IllegalArgumentException(timeComponent+" string is less than 2 characters");
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(timeComponent+" is not an integer");
+        }
+        if (minute < min || minute > max)
+            throw new IllegalArgumentException(timeComponent+" cannot be less than "+min+" or more than "+max);
     }
 }

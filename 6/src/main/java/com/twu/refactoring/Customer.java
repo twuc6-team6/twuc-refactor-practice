@@ -4,12 +4,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class Customer {
-	public static final double REGULAR_EXTRE_POINTS = 1.5;
-	public static final double CHILDRENS_EXTRE_POINTS = 1.5;
-	public static final int REGULAR_POINTS = 2;
-	public static final double CHILDRENS_POINTS = 1.5;
-	public static final int REGULAR_CRITICAL_DAY = 2;
-	public static final int CHILDRENS_CRITICAL_DAY = 3;
 	private String name;
 	private ArrayList<Rental> rentalList = new ArrayList<Rental>();
 
@@ -48,30 +42,14 @@ public class Customer {
 
 	private double determineAmountsForEachLine(Rental each){
 		double thisAmount = 0;
-		switch (each.getMovie().getPriceCode()) {
-			case Movie.REGULAR:
-				thisAmount += REGULAR_POINTS;
-				if (each.getDaysRented() > REGULAR_CRITICAL_DAY)
-					thisAmount += (each.getDaysRented() - REGULAR_CRITICAL_DAY) * REGULAR_EXTRE_POINTS;
-				break;
-			case Movie.NEW_RELEASE:
-				thisAmount += each.getDaysRented() * 3;
-				break;
-			case Movie.CHILDRENS:
-				thisAmount += CHILDRENS_POINTS;
-				if (each.getDaysRented() > CHILDRENS_CRITICAL_DAY)
-					thisAmount += (each.getDaysRented() - CHILDRENS_CRITICAL_DAY) * CHILDRENS_EXTRE_POINTS;
-				break;
-
-
-		}
+		thisAmount += each.getMovie().getAmount(each.getDaysRented());
 		return thisAmount;
 	}
 
 	private int countFrequentRenterPoints(Rental each){
 		int curFrequentRenterPoints = 0;
 		curFrequentRenterPoints++;
-		if ((each.getMovie().getPriceCode() == Movie.NEW_RELEASE)
+		if ((each.getMovie() instanceof NewReleaseMovie)
 				&& each.getDaysRented() > 1)
 			curFrequentRenterPoints++;
 		return curFrequentRenterPoints;

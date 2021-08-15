@@ -10,8 +10,6 @@ public class Receipt {
     private static final int PRE_RATE_CHANGE_AC_RATE = 20;
     private static final int POST_RATE_CHANGE_AC_RATE = 17;
     private static final double SALES_TAX_RATE = 0.1;
-
-
     private final Taxi taxi;
 
     public Receipt(Taxi taxi) {
@@ -20,17 +18,13 @@ public class Receipt {
 
     public double getTotalCost() {
         double totalCost = 0;
-
         totalCost += FIXED_CHARGE;
-
-
         double peakTimeMultiple = taxi.isPeakTime() ? PEAK_TIME_MULTIPLIER : OFF_PEAK_MULTIPLIER;
         if(taxi.isAirConditioned()) {
             totalCost = countCost(totalCost,peakTimeMultiple,PRE_RATE_CHANGE_AC_RATE,POST_RATE_CHANGE_AC_RATE);
         } else {
             totalCost = countCost(totalCost, peakTimeMultiple,PRE_RATE_CHANGE_NON_AC_RATE, POST_RATE_CHANGE_NON_AC_RATE);
         }
-
         return totalCost * (1 + SALES_TAX_RATE);
     }
 

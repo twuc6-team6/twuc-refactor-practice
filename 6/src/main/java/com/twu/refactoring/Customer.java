@@ -15,6 +15,10 @@ public class Customer {
 		rentalList.add(arg);
 	}
 
+	public void removeRental(Rental arg){
+		rentalList.remove(arg);
+	}
+
 	public String getName() {
 		return name;
 	}

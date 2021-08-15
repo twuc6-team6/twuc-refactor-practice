@@ -23,12 +23,12 @@ public class CustomerTest {
 	private Movie la = new NewReleaseMovie("LA Confidential");
 	private Movie trek = new NewReleaseMovie("Star Trek 13.2");
 	private Movie wallace = new ChildrenMovie("Wallace and Grommet");
-
+	private Rental laRental = new Rental(la,2);
     @BeforeEach
     public void setUpData(){
        disable.addRental(new Rental (python, 3));
        disable.addRental(new Rental (ran, 1));
-       disable.addRental(new Rental (la, 2));
+       disable.addRental(laRental);
        disable.addRental(new Rental (trek, 1));
        disable.addRental(new Rental (wallace, 6));
    }
@@ -44,11 +44,12 @@ public class CustomerTest {
         verifyOutput(disable.statement(), "output1");
     }
 
-//    @Test
-//    public void shouldOutputChangedStatement() throws Exception {
-//        la.setPriceCode(Movie.REGULAR);
-//        verifyOutput(disable.statement(), "outputChange");
-//    }
+    @Test
+    public void shouldOutputChangedStatement() throws Exception {
+        disable.removeRental(laRental);
+        disable.addRental(new Rental(new RegularMovie("LA Confidential"),2));
+        verifyOutput(disable.statement(), "outputChange");
+    }
     	
     protected void verifyOutput(String actualValue, String fileName) throws IOException{
         String filePath = getClass().getClassLoader().getResource(GOLD_PATH + fileName).getPath();

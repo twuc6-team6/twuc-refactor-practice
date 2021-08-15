@@ -19,12 +19,7 @@ public class Receipt {
     public double getTotalCost() {
         double totalCost = 0;
         totalCost += FIXED_CHARGE;
-        double peakTimeMultiple = taxi.isPeakTime() ? PEAK_TIME_MULTIPLIER : OFF_PEAK_MULTIPLIER;
-        if(taxi.isAirConditioned()) {
-            totalCost += countCost(peakTimeMultiple,PRE_RATE_CHANGE_AC_RATE,POST_RATE_CHANGE_AC_RATE);
-        } else {
-            totalCost += countCost(peakTimeMultiple,PRE_RATE_CHANGE_NON_AC_RATE, POST_RATE_CHANGE_NON_AC_RATE);
-        }
+        totalCost += extraCost();
         return totalCost * (1 + SALES_TAX_RATE);
     }
 
@@ -33,5 +28,16 @@ public class Receipt {
         double airCost = Math.min(RATE_CHANGE_DISTANCE, totalKms) * preRate * peakTimeMultiple;
         airCost += Math.max(0, totalKms - RATE_CHANGE_DISTANCE) * postRate * peakTimeMultiple;
         return airCost;
+    }
+
+    private double extraCost(){
+        double cost = 0;
+        double peakTimeMultiple = taxi.isPeakTime() ? PEAK_TIME_MULTIPLIER : OFF_PEAK_MULTIPLIER;
+        if(taxi.isAirConditioned()) {
+            cost += countCost(peakTimeMultiple,PRE_RATE_CHANGE_AC_RATE,POST_RATE_CHANGE_AC_RATE);
+        } else {
+            cost += countCost(peakTimeMultiple,PRE_RATE_CHANGE_NON_AC_RATE, POST_RATE_CHANGE_NON_AC_RATE);
+        }
+        return cost;
     }
 }

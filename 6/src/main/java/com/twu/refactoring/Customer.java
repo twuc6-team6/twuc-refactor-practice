@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class Customer {
-
 	public static final double REGULAR_EXTRE_POINTS = 1.5;
 	public static final double CHILDRENS_EXTRE_POINTS = 1.5;
 	public static final int REGULAR_POINTS = 2;
@@ -35,7 +34,7 @@ public class Customer {
 			double thisAmount = 0;
 			Rental each = rentals.next();
             thisAmount = this.determineAmountsForEachLine(each);
-			frequentRenterPoints = countFrequentRenterPoints(each,frequentRenterPoints);
+			frequentRenterPoints += countFrequentRenterPoints(each);
 			result += "\t" + each.getMovie().getTitle() + "\t"
 					+ String.valueOf(thisAmount) + "\n";
 			totalAmount += thisAmount;
@@ -69,12 +68,13 @@ public class Customer {
 		return thisAmount;
 	}
 
-	private int countFrequentRenterPoints(Rental each,int frequentRenterPoints){
-		frequentRenterPoints++;
+	private int countFrequentRenterPoints(Rental each){
+		int curFrequentRenterPoints = 0;
+		curFrequentRenterPoints++;
 		if ((each.getMovie().getPriceCode() == Movie.NEW_RELEASE)
 				&& each.getDaysRented() > 1)
-			frequentRenterPoints++;
-		return frequentRenterPoints;
+			curFrequentRenterPoints++;
+		return curFrequentRenterPoints;
 	}
 
 }

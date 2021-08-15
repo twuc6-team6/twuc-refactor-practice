@@ -19,7 +19,7 @@ public class Receipt {
     public double getTotalCost() {
         double totalCost = 0;
         totalCost += FIXED_CHARGE;
-        totalCost += extraCost();
+        totalCost += beyondCost();
         return totalCost * (1 + SALES_TAX_RATE);
     }
 
@@ -30,7 +30,7 @@ public class Receipt {
         return airCost;
     }
 
-    private double extraCost(){
+    private double beyondCost(){
         double cost = 0;
         double peakTimeMultiple = taxi.isPeakTime() ? PEAK_TIME_MULTIPLIER : OFF_PEAK_MULTIPLIER;
         if(taxi.isAirConditioned()) {
